@@ -17,6 +17,7 @@ export default class ImageGallery extends Component {
     pageNumber: 1,
     loadMore: false,
     isLoading: false,
+    
   };
 
   async componentDidUpdate(prevProps, prevState) {
