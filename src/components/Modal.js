@@ -15,7 +15,6 @@ export const Modal = ({ largeImageURL, tag, toggleModal }) => {
     };
   }, [toggleModal]);
 
-  
   function onOverlayClick(e) {
     if (e.target === e.currentTarget) {
       return toggleModal();
