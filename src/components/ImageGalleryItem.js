@@ -1,44 +1,34 @@
-import { Component } from 'react';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { Modal } from './Modal';
 
 
+export const ImageGalleryItem = ({ largeImageUrl, tag, url }) => {
+  const [isOpen, setIsOpen] = useState(false);
 
-export class ImageGalleryItem extends Component {
-  static propTypes = {
-    url: PropTypes.string.isRequired,
-    tag: PropTypes.string.isRequired,
-    largeImageUrl: PropTypes.string.isRequired,
+  const toggle = () => {
+    setIsOpen(prevState => !prevState);
   };
 
-  state = {
-    isOpen: false,
-  };
-  toggle = () => {
-    this.setState(prevState => ({
-      isOpen: !prevState.isOpen,
-    }));
-  };
+  return (
+    <>
+      <Li>
+        <Img src={url} alt={tag} onClick={toggle} />
+        {isOpen && (
+          <Modal largeImageURL={largeImageUrl} tag={tag} toggleModal={toggle} />
+        )}
+      </Li>
+    </>
+  );
+};
 
-  render() {
-    const { url, tag, largeImageUrl } = this.props;
-    return (
-      <>
-        <Li>
-          <Img src={url} alt={tag} onClick={this.toggle} />
-          {this.state.isOpen && (
-            <Modal
-              largeImageURL={largeImageUrl}
-              tag={tag}
-              toggleModal={this.toggle}
-            />
-          )}
-        </Li>
-      </>
-    );
-  }
-}
+
+ImageGalleryItem.propTypes = {
+  url: PropTypes.string.isRequired,
+  tag: PropTypes.string.isRequired,
+  largeImageUrl: PropTypes.string.isRequired,
+};
 
 //////////////////style////////////
 

@@ -1,41 +1,38 @@
-import { Component } from 'react';
+// import { Component } from 'react';
 import { ImSearch } from 'react-icons/im';
 import { toast } from 'react-hot-toast';
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
-export default class SeachBar extends Component {
-  static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
-    onChange: PropTypes.func,
+
+export const SeachBar = ({onSubmit}) => {
+  const [value, setValue] = useState('');
+  
+  const handelChange = e => {
+    setValue(
+      e.currentTarget.value.toLowerCase(),
+    );
   };
 
-  state = {
-    value: '',
-  };
 
-  handelChange = e => {
-    this.setState({
-      value: e.currentTarget.value.toLowerCase(),
-    });
-  };
+     const handelSubmit = e => {
+       e.preventDefault();
 
-  handelSubmit = e => {
-    e.preventDefault();
+       if (value.trim() === '') {
+         toast.error('Введите параметр поиска');
+         return;
+       }
 
-    if (this.state.value.trim() === '') {
-      toast.error('Введите параметр поиска');
-      return;
-    }
+       onSubmit(value);
+       setValue( '' );
+     };
+  
 
-    this.props.onSubmit(this.state.value);
-    this.setState({ value: '' });
-  };
 
-  render() {
-    return (
+      return (
       <Header>
-        <Form onSubmit={this.handelSubmit}>
+        <Form onSubmit={handelSubmit}>
           <Button type="submit">
             <ImSearch />
             <ButtonLabel>Search</ButtonLabel>
@@ -46,16 +43,21 @@ export default class SeachBar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            value={this.state.value}
-            onChange={this.handelChange}
+            value={value}
+            onChange={handelChange}
           />
         </Form>
       </Header>
     );
-  }
 }
 
-////////////////////style////////////////////////////
+   SeachBar.propTypes = {
+     onSubmit: PropTypes.func.isRequired,
+     onChange: PropTypes.func,
+   };
+
+ 
+////////////////style////////////////////////////
 
 const Header = styled.header`
   top: 0;

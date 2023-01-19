@@ -1,33 +1,26 @@
-import { Component } from 'react';
-import SeachBar from './Searchbar';
+// import { Component } from 'react';
+import { SeachBar } from './Searchbar';
 import { Toaster } from 'react-hot-toast';
-import ImageGallery from './ImageGallery';
+import {ImageGallery} from './ImageGallery';
 import styled from '@emotion/styled';
+import { useState } from 'react';
 
+export const App = () => {
+  const [value, setValue] = useState('');
 
-
-export class App extends Component {
-  state = {
-    value: '',
+  const handelFormSubmit = value => {
+    setValue(value);
   };
 
-  handelFormSubmit = value => {
-    this.setState({ value });
-  };
+  return (
+    <Container>
+      <SeachBar onSubmit={handelFormSubmit} />
+      <ImageGallery value={value} />
 
-
-  render() {
-    return (
-      <Container>
-        <SeachBar onSubmit={this.handelFormSubmit} />
-        <ImageGallery value={this.state.value} />
-
-        <Toaster toastOptions={{ duration: 2000 }} />
-      </Container>
-    );
-  }
-}
-
+      <Toaster toastOptions={{ duration: 2000 }} />
+    </Container>
+  );
+};
 
 ////////////////style//////////////
 
